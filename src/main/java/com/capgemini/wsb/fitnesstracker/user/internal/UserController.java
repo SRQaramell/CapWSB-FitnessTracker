@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -48,7 +47,7 @@ class UserController {
     @GetMapping("/older/{time}")
     public List<UserDto> getUserOlderThanAge(@PathVariable LocalDate date)
     {
-        return userService.getUsersOlderThanAge(date).stream().map(userMapper::toDto).toList();
+        return userService.getUserOlderThanDate(date).stream().map(userMapper::toDto).toList();
     }
 
     @PostMapping
@@ -83,14 +82,14 @@ class UserController {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long userID)
+    public void deleteUser(@PathVariable Long userId)
     {
         try
         {
-            userService.deleteUser(userID);
+            userService.deleteUser(userId);
         } catch (Exception e)
         {
-            throw new IllegalArgumentException("Cannot delete user " + userID + " Error: " + e.getMessage());
+            throw new IllegalArgumentException("Cannot delete user " + userId + " Error: " + e.getMessage());
         }
     }
 

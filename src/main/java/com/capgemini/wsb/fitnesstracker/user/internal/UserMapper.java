@@ -36,7 +36,7 @@ class UserMapper {
 
         if(userDto.birthdate() != null)
         {
-            user.setBirthday(userDto.birthdate());
+            user.setBirthdate(userDto.birthdate());
         }
 
         if(userDto.email() != null)

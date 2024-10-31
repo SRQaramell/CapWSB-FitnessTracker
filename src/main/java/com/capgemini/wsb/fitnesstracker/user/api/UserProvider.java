@@ -31,9 +31,9 @@ public interface UserProvider {
      */
     List<User> findAllUsers();
 
-    List<User> getUsersOlderThanAge(LocalDate date);
+    List<User> getUserOlderThanDate(LocalDate date);
 
-    List<User> getUserByEmailNotCaseSensitive(String email);
+    List<User> getUserByEmailCaseInsensitive(String email);
 
 
 
