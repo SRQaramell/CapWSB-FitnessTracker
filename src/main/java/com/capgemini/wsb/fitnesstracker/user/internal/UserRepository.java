@@ -6,8 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
 
-interface UserRepository extends JpaRepository<User, Long> {
+interface UserRepository extends JpaRepository<User, Long>
+{
 
     /**
      * Query searching users by email address. It matches by exact match.
@@ -19,6 +22,16 @@ interface UserRepository extends JpaRepository<User, Long> {
         return findAll().stream()
                         .filter(user -> Objects.equals(user.getEmail(), email))
                         .findFirst();
+    }
+
+    default List<User> findByEmailFragmentCaseInsensitive(String emailFragment)
+    {
+        return findAll().stream().filter(user -> user.getEmail().toLowerCase().contains(emailFragment.toLowerCase())).toList();
+    }
+
+    default List<User> findByBirthdateBefore(LocalDate date)
+    {
+        return findAll().stream().filter(user -> user.getBirthdate().isBefore(date)).toList();
     }
 
 }

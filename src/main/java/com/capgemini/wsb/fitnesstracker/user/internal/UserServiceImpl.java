@@ -7,13 +7,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class UserServiceImpl implements UserService, UserProvider {
+class UserServiceImpl implements UserService, UserProvider
+{
 
     private final UserRepository userRepository;
 
@@ -24,6 +26,36 @@ class UserServiceImpl implements UserService, UserProvider {
             throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(final User user)
+    {
+        log.info("Updating User {}", user);
+        if(user.getId() == null)
+        {
+            throw new IllegalArgumentException("User has no DB.ID");
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(final Long userId)
+    {
+        log.info("Deleting User with ID {}", userId);
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public List<User> getUserOlderThanDate(LocalDate date)
+    {
+        return userRepository.findByBirthdateBefore(date);
+    }
+
+    @Override
+    public List<User> getUserByEmailCaseInsensitive(final String email)
+    {
+        return userRepository.findByEmailFragmentCaseInsensitive(email);
     }
 
     @Override
