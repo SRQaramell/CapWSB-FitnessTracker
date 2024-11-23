@@ -2,6 +2,7 @@ package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +45,8 @@ class UserController {
         return userService.getUserByEmailCaseInsensitive(email).stream().map(userEmailSimpleMapper::toEmailSimpleDto).toList();
     }
 
-    @GetMapping("/older/{time}")
-    public List<UserDto> getUserOlderThanAge(@PathVariable LocalDate date)
+    @GetMapping("/older/{date}")
+    public List<UserDto> getUserOlderThanAge(@DateTimeFormat(pattern = "yyyy-MM-dd")@PathVariable LocalDate date)
     {
         return userService.getUserOlderThanDate(date).stream().map(userMapper::toDto).toList();
     }
