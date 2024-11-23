@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "bc415382-2f6a-4f2f-8690-76040888e2bf",
+		"name": "Training",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39941779"
+	},
+	"item": [
+		{
+			"name": "All Trainings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/v1/trainings",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"trainings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trainings by user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/v1/trainings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"trainings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trainings by Activity Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8085/v1/trainings/activityType?activityType=RUNNING",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"trainings",
+						"activityType"
+					],
+					"query": [
+						{
+							"key": "activityType",
+							"value": "RUNNING"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Completed trainings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/v1/trainings/completed/2023-11-22%2015:30:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"trainings",
+						"completed",
+						"2023-11-22%2015:30:00"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add training",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 11,\r\n    \"user\": {\r\n        \"id\": 8\r\n    },\r\n    \"startTime\": \"2023-09-01 15:30:00\",\r\n    \"endTime\": \"2023-09-01 15:40:00\",\r\n    \"activityType\": \"Running\",\r\n    \"distance\": 1000,\r\n    \"averageSpeed\": 8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/v1/trainings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"trainings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

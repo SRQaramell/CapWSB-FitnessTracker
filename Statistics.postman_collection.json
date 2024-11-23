@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "4f56c55f-7f18-45e1-9c14-75112e3b9a2b",
+		"name": "Statistics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39941779"
+	},
+	"item": [
+		{
+			"name": "All Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/v1/statistics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Statistics by user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/v1/statistics/user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"statistics",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Statistics by calories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/v1/statistics/calories/500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"statistics",
+						"calories",
+						"500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add statistics",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 11,\r\n    \"user\": 10,\r\n    \"totalTrainings\": 2,\r\n    \"totalDistance\": 100,\r\n    \"totalCaloriesBurned\":200\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
