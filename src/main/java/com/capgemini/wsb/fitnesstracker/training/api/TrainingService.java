@@ -1,15 +1,15 @@
-package com.capgemini.wsb.fitnesstracker.user.api;
+package com.capgemini.wsb.fitnesstracker.training.api;
+
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 
 /**
- * Interface (API) for modifying operations on {@link User} entities through the API.
+ * Interface (API) for modifying operations on {@link Training} entities through the API.
  * Implementing classes are responsible for executing changes within a database transaction, whether by continuing an existing transaction or creating a new one if required.
  */
-public interface UserService {
+public interface TrainingService {
 
-    User createUser(User user);
+    Training createTraining(Training training);
 
-    void deleteUser(Long userId);
-
-    User updateUser(User user);
+    Training updateTraining(Training training);
 
 }

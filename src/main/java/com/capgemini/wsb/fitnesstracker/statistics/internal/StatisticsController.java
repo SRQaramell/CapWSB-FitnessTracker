@@ -1,65 +1,71 @@
-package com.capgemini.wsb.fitnesstracker.training.internal;
+package com.capgemini.wsb.fitnesstracker.statistics.internal;
 
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
-import com.capgemini.wsb.fitnesstracker.training.internal.*;
+import com.capgemini.wsb.fitnesstracker.statistics.api.Statistics;
+import com.capgemini.wsb.fitnesstracker.statistics.internal.StatisticsDto;
+import com.capgemini.wsb.fitnesstracker.statistics.internal.StatisticsMapper;
+import com.capgemini.wsb.fitnesstracker.statistics.internal.StatisticsServiceImpl;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/trainings")
+@RequestMapping("/v1/statistics")
 @RequiredArgsConstructor
-class TrainingController {
+class StatisticsController {
 
-    private final TrainingServiceImpl trainingService;
-    private final TrainingMapper trainingMapper;
+    private final StatisticsServiceImpl statisticsService;
+    private final StatisticsMapper statisticsMapper;
+    private final UserServiceImpl userService;
 
     @GetMapping
-    public List<TrainingDto> getAllTrainings() {
-        return trainingService.findAllTrainings()
+    public List<StatisticsDto> getAllStatistics() {
+        return statisticsService.findAllStatistics()
                 .stream()
-                .map(trainingMapper::toDto)
+                .map(statisticsMapper::toDto)
                 .toList();
     }
-
     @GetMapping("/user/{id}")
-    public List<TrainingDto> getTrainingByUserId(@PathVariable Long id) {
-        return trainingService.getTrainingsByUser(id)
+    public List<StatisticsDto> getStatisticsByUser(@PathVariable Long id) {
+        return statisticsService.getStatisticsByUser(id)
                 .stream()
-                .map(trainingMapper::toDto)
+                .map(statisticsMapper::toDto)
                 .toList();
     }
 
-    @GetMapping("/completed/{date}")
-    public List<TrainingDto> getCompletedTrainingByTime(@PathVariable Date date) {
-        return trainingService.getCompletedTrainings(date)
+    @GetMapping("/calories/{calories}")
+    public List<StatisticsDto> getStatisticsByCalories(@PathVariable int calories) {
+        return statisticsService.getStatisticsByMoreCalories(calories)
                 .stream()
-                .map(trainingMapper::toDto)
-                .toList();
-    }
-
-    @GetMapping("/activityType")
-    public List<TrainingDto> getTrainingByActivityType(@RequestParam String activityType) {
-        ActivityType activity = ActivityType.valueOf(activityType.toUpperCase());
-        return trainingService.getTrainingsByActivity(activity)
-                .stream()
-                .map(trainingMapper::toDto)
+                .map(statisticsMapper::toDto)
                 .toList();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TrainingDto createTraining(@RequestBody TrainingDto trainingDto){
-        return null;
+    public StatisticsDto createStatistics(@RequestBody StatisticsDto statisticsDto) {
+        User user = userService.getUser(statisticsDto.userId()).orElseThrow(() -> new IllegalArgumentException("User with ID " + statisticsDto.userId() + " not found"));
+        Statistics statistics = statisticsMapper.toEntity(statisticsDto, user);
+        Statistics createdStatistics = statisticsService.createStatistics(statistics);
+
+        return statisticsMapper.toDto(createdStatistics);
     }
 
     @PutMapping("/{id}")
-    public TrainingDto updateTraining(@PathVariable Long id, @RequestBody TrainingDto trainingDto) {
+    public StatisticsDto updateStatistics(@PathVariable Long id, @RequestBody StatisticsDto StatisticsDto) {
         return null;
+    }
+
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStatistics(@PathVariable Long statisticsId)
+    {
+
     }
 
 

@@ -1,15 +1,17 @@
-package com.capgemini.wsb.fitnesstracker.training.api;
+package com.capgemini.wsb.fitnesstracker.statistics.api;
 
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
+import com.capgemini.wsb.fitnesstracker.statistics.api.Statistics;
 
 /**
- * Interface (API) for modifying operations on {@link Training} entities through the API.
+ * Interface (API) for modifying operations on {@link Statistics} entities through the API.
  * Implementing classes are responsible for executing changes within a database transaction, whether by continuing an existing transaction or creating a new one if required.
  */
-public interface TrainingService {
+public interface StatisticsService {
 
-    Training createTraining(Training training);
+    Statistics createStatistics(Statistics statistics);
 
-    Training updateTraining(Training training);
+    Statistics updateStatistics(Statistics statistics);
+
+    void deleteStatistics(Statistics statistics);
 
 }

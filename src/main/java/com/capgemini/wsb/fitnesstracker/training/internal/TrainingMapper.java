@@ -1,50 +1,51 @@
-package com.capgemini.wsb.fitnesstracker.user.internal;
+package com.capgemini.wsb.fitnesstracker.training.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import org.springframework.stereotype.Component;
 
 @Component
-class UserMapper {
+class TrainingMapper {
 
-    UserDto toDto(User user) {
-        return new UserDto(user.getId(),
-                           user.getFirstName(),
-                           user.getLastName(),
-                           user.getBirthdate(),
-                           user.getEmail());
+    TrainingDto toDto(Training training) {
+        return new TrainingDto(training.getId(),
+                training.getUser(),
+                training.getStartTime(),
+                training.getEndTime(),
+                training.getActivityType(),
+                training.getDistance(),
+                training.getAverageSpeed());
     }
 
-    User toEntity(UserDto userDto) {
-        return new User(
-                        userDto.firstName(),
-                        userDto.lastName(),
-                        userDto.birthdate(),
-                        userDto.email());
+    Training toEntity(TrainingDto trainingDto, User user) {
+        return new Training(
+                user,
+                trainingDto.startTime(),
+                trainingDto.endTime(),
+                trainingDto.activityType(),
+                trainingDto.distance(),
+                trainingDto.averageSpeed());
     }
 
-    User toUpdateEntity(UserDto userDto, User user)
+    Training toUpdateEntity(TrainingDto trainingDto, Training training, User user)
     {
-        if(userDto.firstName() != null)
+        if (user != null) {
+            training.setUser(user);
+        }
+        if(trainingDto.startTime() != null)
         {
-            user.setFirstName(userDto.firstName());
+            training.setStartTime(trainingDto.startTime());
+        }
+        if(trainingDto.endTime() != null)
+        {
+            training.setEndTime(trainingDto.endTime());
+        }
+        if(trainingDto.activityType() != null)
+        {
+            training.setActivityType(trainingDto.activityType());
         }
 
-        if(userDto.lastName() != null)
-        {
-            user.setLastName(userDto.lastName());
-        }
-
-        if(userDto.birthdate() != null)
-        {
-            user.setBirthdate(userDto.birthdate());
-        }
-
-        if(userDto.email() != null)
-        {
-            user.setEmail(userDto.email());
-        }
-
-        return user;
+        return training;
     }
 
 }

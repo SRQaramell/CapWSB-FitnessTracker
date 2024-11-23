@@ -1,51 +1,26 @@
-package com.capgemini.wsb.fitnesstracker.training.internal;
+package com.capgemini.wsb.fitnesstracker.statistics.internal;
 
+import com.capgemini.wsb.fitnesstracker.statistics.api.Statistics;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import org.springframework.stereotype.Component;
 
 @Component
-class TrainingMapper {
+class StatisticsMapper {
 
-    TrainingDto toDto(Training training) {
-        return new TrainingDto(training.getId(),
-                training.getUser(),
-                training.getStartTime(),
-                training.getEndTime(),
-                training.getActivityType(),
-                training.getDistance(),
-                training.getAverageSpeed());
+    StatisticsDto toDto(Statistics statistics) {
+        return new StatisticsDto(statistics.getId(),
+                statistics.getUser().getId(),
+                statistics.getTotalTrainings(),
+                statistics.getTotalDistance(),
+                statistics.getTotalCaloriesBurned()
+        );
     }
-
-    Training toEntity(TrainingDto trainingDto, User user) {
-        return new Training(
+    Statistics toEntity(StatisticsDto statisticsDto, User user){
+        return new Statistics(
                 user,
-                trainingDto.startTime(),
-                trainingDto.endTime(),
-                trainingDto.activityType(),
-                trainingDto.distance(),
-                trainingDto.averageSpeed());
+                statisticsDto.totalTrainings(),
+                statisticsDto.totalDistance(),
+                statisticsDto.totalCaloriesBurned()
+        );
     }
-
-    Training toUpdateEntity(TrainingDto trainingDto, Training training, User user)
-    {
-        if (user != null) {
-            training.setUser(user);
-        }
-        if(trainingDto.startTime() != null)
-        {
-            training.setStartTime(trainingDto.startTime());
-        }
-        if(trainingDto.endTime() != null)
-        {
-            training.setEndTime(trainingDto.endTime());
-        }
-        if(trainingDto.activityType() != null)
-        {
-            training.setActivityType(trainingDto.activityType());
-        }
-
-        return training;
-    }
-
 }

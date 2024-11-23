@@ -1,68 +1,68 @@
-package com.capgemini.wsb.fitnesstracker.training.internal;
+package com.capgemini.wsb.fitnesstracker.statistics.internal;
 
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
-import com.capgemini.wsb.fitnesstracker.training.internal.TrainingRepository;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
-import com.capgemini.wsb.fitnesstracker.user.api.User;
-
-import java.util.Date;
-import java.util.Optional;
-import java.util.List;
-
+import com.capgemini.wsb.fitnesstracker.statistics.api.Statistics;
+import com.capgemini.wsb.fitnesstracker.statistics.api.StatisticsProvider;
+import com.capgemini.wsb.fitnesstracker.statistics.api.StatisticsService;
+import com.capgemini.wsb.fitnesstracker.statistics.internal.StatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TrainingServiceImpl implements TrainingProvider, TrainingService {
+public class StatisticsServiceImpl implements StatisticsProvider, StatisticsService {
 
-    private final TrainingRepository trainingRepository;
-
-    @Override
-    public Optional<User> getTraining(final Long trainingId) {
-        throw new UnsupportedOperationException("Not finished yet");
-    }
+    private final StatisticsRepository statisticsRepository;
 
     @Override
-    public Training createTraining(final Training training) {
-        log.info("Creating Training {}", training);
-        if (training.getId() != null) {
-            throw new IllegalArgumentException("Training has already DB ID, update is not permitted!");
+    public Statistics createStatistics(Statistics statistics) {
+        if (statistics == null) {
+            throw new IllegalArgumentException("Statistics cannot be null");
         }
-        return trainingRepository.save(training);
+        return statisticsRepository.save(statistics);
     }
 
     @Override
-    public Training updateTraining(final Training training) {
-        log.info("Updating Training {}", training);
-        if(training.getId() == null)
-        {
-            throw new IllegalArgumentException("Training has no DB.ID");
+    public Statistics updateStatistics(Statistics statistics) {
+        if (statistics == null || statistics.getId() == null) {
+            throw new IllegalArgumentException("Statistics or its ID cannot be null for update");
         }
-        return trainingRepository.save(training);
+        if (!statisticsRepository.existsById(statistics.getId())) {
+            throw new IllegalArgumentException("Statistics with ID " + statistics.getId() + " does not exist");
+        }
+        return statisticsRepository.save(statistics);
     }
 
     @Override
-    public List<Training> getCompletedTrainings(Date date){
-        return trainingRepository.findAfterDate(date);
+    public void deleteStatistics(Statistics statistics) {
+        if (statistics == null || statistics.getId() == null) {
+            throw new IllegalArgumentException("Statistics or its ID cannot be null for delete");
+        }
+        statisticsRepository.delete(statistics);
     }
 
     @Override
-    public List<Training> getTrainingsByActivity(ActivityType activityType){
-        return trainingRepository.findByActivityType(activityType);
+    public List<Statistics> getStatisticsByUser(Long userId) {
+        return statisticsRepository.getStatisticsByUser(userId);
     }
 
     @Override
-    public List<Training> getTrainingsByUser(Long userId){
-        return trainingRepository.findByUser(userId);
+    public List<Statistics> getStatisticsByMoreCalories(int calories) {
+        return statisticsRepository.getStatisticsByMoreCalories(calories);
     }
 
     @Override
-    public List<Training> findAllTrainings() {
-        return trainingRepository.findAll();
+    public Optional<Statistics> getStatistics(Long statisticsId) {
+        return Optional.empty();
     }
 
+    @Override
+    public List<Statistics> findAllStatistics() {
+        return statisticsRepository.findAll();
+    }
 }
